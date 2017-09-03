@@ -1,0 +1,46 @@
+body{
+  padding: 50px;
+  background-color: #24DA50;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+h1{
+	color: white;
+	text-align: center;
+}
+form{
+	border: 2px solid white;
+}
+p{
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+}
+#submit{
+	width: 200px;
+	height: 40px;
+	margin-left: 50px;
+	bottom: 2em;
+}
+input,textarea{
+	margin-left: 200px;
+	width: 200px;
+	height:40px;
+	display: inline-block;
+}
+.reginput{
+	display: inline-block;
+	margin-left: 30px;
+	height: 40px;
+	width: 200px;
+}
+#uploadform{
+	height : 400px;
+
+}
+#fingerprint{
+	margin-top: 30px;
+	margin-left: 10px;
+}
+#picture{
+	margin-left: 10px;
+}
