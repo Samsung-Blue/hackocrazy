@@ -5,8 +5,43 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var passwordless = require('passwordless');
+var MongoStore = require('passwordless-mongostore');
+var email   = require("emailjs");
+var emailDetails = require('./env.js');
+var yourEmail = emailDetails.email;
+var yourPwd = emailDetails.pwd;
+var yourSmtp = emailDetails.smtp;
+var smtpServer  = email.server.connect({
+   user:    yourEmail, 
+   password: yourPwd, 
+   host:    yourSmtp, 
+   ssl:     true
+});
+
 var index = require('./routes/index');
-var users = require('./routes/users');
+var verify = require('./routes/verify');
+
+var pathToMongoDb = 'mongodb://localhost/passwordless-simple-mail';
+passwordless.init(new MongoStore(pathToMongoDb));
+
+passwordless.addDelivery(
+    function(tokenToSend, uidToSend, recipient, callback) {
+        // Send out token
+        var host = require('./routes/index').host;
+        smtpServer.send({
+           text:    'Hello!\nYou can now access your account here: ' 
+                + host + '?token=' + tokenToSend + '&uid=' + encodeURIComponent(uidToSend), 
+           from:    yourEmail, 
+           to:      recipient,
+           subject: 'Token for ' + host
+        }, function(err, message) { 
+            if(err) {
+                console.log(err);
+            }
+            callback(err);
+        });
+    });
 
 var app = express();
 
@@ -23,7 +58,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/', verify);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

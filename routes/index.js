@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var path = require('path');
 
 var models  = require(path.join(__dirname, '/../' ,'models'));
 var users = models.users;
