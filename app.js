@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var verify = require('./routes/verify');
 var app = express();
 
 // view engine setup
@@ -23,7 +23,29 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/', verify);
 app.use('/users', users);
+var pathToMongoDb = 'mongodb://localhost/passwordless-simple-mail';
+passwordless.init(new MongoStore(pathToMongoDb));
+
+passwordless.addDelivery (
+    function(tokenToSend, uidToSend, recipient, callback) {
+        // Send out token
+        var host = require('./routes/index').host;
+        smtpServer.send({
+           text:    'Hello!\nYou can now access your account here: ' 
+                + host + '?token=' + tokenToSend + '&uid=' + encodeURIComponent(uidToSend), 
+           from:    yourEmail, 
+           to:      recipient,
+           subject: 'Token for ' + host
+        }, function(err, message) { 
+            if(err) {
+                console.log(err);
+            }
+            callback(err);
+        });
+    });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
