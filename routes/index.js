@@ -4,9 +4,18 @@ var request = require('request');
 var path = require('path');
 var redis = require("redis");
 var client = redis.createClient();
+var session=require('express-session');
+var bodyParser = require('body-parser');
+
+var passwordless = require('passwordless');
 
 var models  = require(path.join(__dirname, '/../' ,'models'));
 var users = models.users;
+
+router.use(session({secret: 'ssshhhhh'}));
+router.use(bodyParser.urlencoded({ extended: false }));
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,9 +24,7 @@ router.get('/', function(req, res, next) {
   	res.render('index', { msg: '' });
 });
 
-router.post('/login', function(req, res, next) {
-	// users.findOne()
-});
+
 router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'}),function(req,res){
 	users.findOne({where : {email : req.user}}).then(function(voter){
 		if(!voter)
@@ -26,12 +33,12 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 				console.log(details);
 		  		result = details.split(',');
 		  		var userDetails = {
-			  		name : result[0],
 			  		aadhaarid : result[1],
+			  		name : result[0],
 			  		age : result[2],
 			  		address : result[3],
 			  		email : req.user,
-			  		fppath : req.file.path,
+			  		fppath : result[4],
 			  		allowvote : "n",
 			  		voted : "n"
 	  			};
@@ -41,11 +48,39 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
   				res.render('instructions');
 			});
 		}
+		else {
+			res.send("vote");
+		}
 	});
 });
 
-router.get('/register',function(req,res,next) {
+router.post('/login',passwordless.requestToken(
+	function(user, delivery, callback) {
+		users.findOne ({where : {email : user}})
+		.then(function(voter) {
+			if ( !voter ) {
+				callback(null,null);
+			} else
+				callback(null,user);
+		});
+	}),
+	function(req, res) {
+		users.findOne({ where: { email: user }})
+		.then(function (voter) {
+			if ( !voter ) {
+				res.render('sent');
+			} else {
+				res.render('index', { msg: 'User does not exist' });
+			}
+		}).catch(function (err) {
+			res.render('index', { msg: 'Some error occurred' });
+		});
+	});
+
+
+router.get('/register', function(req,res,next) {
 	res.render('register');
 });
+
 module.exports = router;
  
