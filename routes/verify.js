@@ -33,16 +33,16 @@ var upload = multer({ storage: storage });
 router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 	var formdata = {
 
-		Data: { data: { name: req.body.name, aadharid: req.body.aadhaarid, age: req.body.age},
-  		file: fs.createReadStream(req.file.path),
+		Data: { aadhaar_id: req.body.aadhaarid, dob: req.body.dob,
+  		image: fs.createReadStream(req.file.path),
 	}}
-	request.post({url:'http://localhost:8000/apikey'}, function optionalCallback(err, httpResponse, body) {
+	request.post({url:'http://192.168.0.124:9000/mock-api/user/auth'}, function optionalCallback(err, httpResponse, body) {
 
 	  	if (err) {
 	    	return console.error('upload failed:', err);
 	  	}
 	  	console.log('Upload successful!  Server responded with:', body);
-	  	if(body.answer = "yes")
+	  	if(body.answer = "true")
 	  	{
 	  		next();
 	  	}
