@@ -21,6 +21,19 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.get('/', function(req, res, next) {
 	router.host = req.protocol+'://'+req.get('host');
 	console.log(router.host);
+	// var userDetails = {
+ //  		aadhaarid : 222,
+ //  		name : "",
+ //  		age : 0,
+ //  		address : "",
+ //  		email : "",
+ //  		fppath : "",
+ //  		allowvote : "n",
+ //  		voted : "n"
+	// };
+	// users.sync({force:false}).then(function(){
+	// 	return users.create(userDetails);
+	// });
   	res.render('index', { msg: '' });
 });
 
@@ -49,7 +62,7 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 			});
 		}
 		else {
-			res.send("vote");
+			res.send("You have been logged in");
 		}
 	});
 });
@@ -65,15 +78,15 @@ router.post('/login',passwordless.requestToken(
 		});
 	}),
 	function(req, res) {
-		users.findOne({ where: { email: user }})
+		users.findOne({ where: { email: req.body.user }})
 		.then(function (voter) {
 			if ( !voter ) {
-				res.render('sent');
+				res.send('Register first');
 			} else {
-				res.render('index', { msg: 'User does not exist' });
+				res.render('sent');
 			}
 		}).catch(function (err) {
-			res.render('index', { msg: 'Some error occurred' });
+			res.send('Some error occured');
 		});
 	});
 

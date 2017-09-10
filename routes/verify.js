@@ -49,7 +49,6 @@ router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 	});
 	},  passwordless.requestToken(
 		// Simply accept every user
-
 		function(user, delivery, callback) {
 			callback(null, user);
 	}),	function(req, res) {
