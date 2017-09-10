@@ -36,7 +36,7 @@ router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 		Data: { data: { name: req.body.name, aadharid: req.body.aadhaarid, age: req.body.age},
   		file: fs.createReadStream(req.file.path),
 	}}
-	request.post({url:'http://192.168.0.102:8000/apikey'}, function optionalCallback(err, httpResponse, body) {
+	request.post({url:'http://localhost:8000/apikey'}, function optionalCallback(err, httpResponse, body) {
 
 	  	if (err) {
 	    	return console.error('upload failed:', err);
