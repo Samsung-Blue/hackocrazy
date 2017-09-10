@@ -55,7 +55,7 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 			  		allowvote : "n",
 			  		voted : "n"
 	  			};
-	  			users.sync({force:false}).then(function(){
+	  			users.sync({force: true}).then(function(){
 	  				return users.create(userDetails);
   				});
   				res.render('instructions');

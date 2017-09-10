@@ -32,21 +32,24 @@ var upload = multer({ storage: storage });
 /* GET home page. */
 router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 	var formdata = {
+		data: { name: req.body.name, aadharid: req.body.aadhaarid, age: req.body.age},
+  		file: fs.createReadStream(req.file.path),
+	}
+	request.post({
+		headers: {'Content-Type' : 'application/json'}, 
+		url: 'http://localhost:8000/apikey',
+		body: JSON.stringify(formdata) 
+		}, function optionalCallback(err, httpResponse, body) {
 
-		Data: { aadhaar_id: req.body.aadhaarid, dob: req.body.dob,
-  		image: fs.createReadStream(req.file.path),
-	}}
-	request.post({url:'http://192.168.0.124:9000/mock-api/user/auth'}, function optionalCallback(err, httpResponse, body) {
-
-	  	if (err) {
-	    	return console.error('upload failed:', err);
-	  	}
-	  	console.log('Upload successful!  Server responded with:', body);
-	  	if(body.answer = "true")
-	  	{
-	  		next();
-	  	}
-	});
+		  	if (err) {
+		    	return console.error('upload failed:', err);
+		  	}
+		  	console.log('Upload successful!  Server responded with:', body);
+		  	if(body.answer = true)
+		  	{
+		  		next();
+		  	}
+		});
 	},  passwordless.requestToken(
 		// Simply accept every user
 		function(user, delivery, callback) {
