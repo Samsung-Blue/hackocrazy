@@ -32,12 +32,15 @@ var upload = multer({ storage: storage });
 /* GET home page. */
 router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 	var formdata = {
-		data: { name: req.body.name, aadharid: req.body.aadhaarid, age: req.body.age},
-  		file: fs.createReadStream(req.file.path),
+		aadhaar_id: req.body.aadhaarid, 
+		dob: req.body.dob,
+  		image: fs.createReadStream(req.file.path),
 	}
+	console.log(formdata.dob);
 	request.post({
 		headers: {'Content-Type' : 'application/json'}, 
-		url: 'http://localhost:8000/apikey',
+		url: 'http://5cbc595a.ngrok.io/mock-api/user/auth',
+		// url: 'http://localhost:8000/apikey',
 		body: JSON.stringify(formdata) 
 		}, function optionalCallback(err, httpResponse, body) {
 
@@ -45,7 +48,7 @@ router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 		    	return console.error('upload failed:', err);
 		  	}
 		  	console.log('Upload successful!  Server responded with:', body);
-		  	if(body.answer = true)
+		  	if(body.auth_status==true)
 		  	{
 		  		next();
 		  	}
