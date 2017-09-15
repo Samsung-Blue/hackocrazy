@@ -1,9 +1,9 @@
 function validate()
 {
 	var name = document.getElementById("name").value;
-	var voterid = document.getElementById("voterid").value;
+	var voterid = document.getElementById("aadhaarid").value;
 	var email = document.getElementById("email").value;
-	var age = document.getElementById("age").value;
+	// var age = document.getElementById("age").value;
 	var address = document.getElementById("address").value;
 	if(name.length==0||voterid.length==0||email.length==0||address.length==0)
 	{
@@ -15,11 +15,11 @@ function validate()
 		alert("No special characters in name ");
 		return false;
 	}
-	if(age.match(/[^0-9]/)!=null||age>150||age<18)
-	{
-		alert("Enter valid age");
-		return false;
-	}
+	// if(age.match(/[^0-9]/)!=null||age>150||age<18)
+	// {
+	// 	alert("Enter valid age");
+	// 	return false;
+	// }
 	if(address.length>200)
 	{
 		alert("Address must be less than 200 characters");
