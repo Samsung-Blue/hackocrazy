@@ -21,6 +21,7 @@ var smtpServer  = email.server.connect({
 
 var index = require('./routes/index');
 var verify = require('./routes/verify');
+var admin = require('./routes/admin');
 
 var pathToMongoDb = 'mongodb://localhost/passwordless-simple-mail';
 passwordless.init(new MongoStore(pathToMongoDb));
@@ -64,6 +65,7 @@ app.use(passwordless.acceptToken({ successRedirect: '/storeOrCheckDetails' }));
 
 app.use('/', index);
 app.use('/', verify);
+app.use('/admin',admin);
 
 
 // catch 404 and forward to error handler
