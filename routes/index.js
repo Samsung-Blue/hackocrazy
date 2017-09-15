@@ -6,11 +6,14 @@ var redis = require("redis");
 var client = redis.createClient();
 var session=require('express-session');
 var bodyParser = require('body-parser');
+var bcrypt=require('bcryptjs');
+
 
 var passwordless = require('passwordless');
 
 var models  = require(path.join(__dirname, '/../' ,'models'));
 var users = models.users;
+var Admins = models.Admins;
 
 router.use(session({secret: 'ssshhhhh'}));
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -19,21 +22,22 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+	var adminName = "admin";
+	var adminPwd = "helloadmin";
+	var salt=bcrypt.genSaltSync(1);
+  	var hash=bcrypt.hashSync(adminPwd,salt);
+  	adminPwd = hash;
+  	var adminDetails = {
+		name: adminName,
+		password: adminPwd
+  	};
+  	Admins.sync({force: true})
+  	.then( function() {
+		return Admins.create(adminDetails);
+  	});
+	
 	router.host = req.protocol+'://'+req.get('host');
 	console.log(router.host);
-	// var userDetails = {
- //  		aadhaarid : 222,
- //  		name : "",
- //  		age : 0,
- //  		address : "",
- //  		email : "",
- //  		fppath : "",
- //  		allowvote : "n",
- //  		voted : "n"
-	// };
-	// users.sync({force:false}).then(function(){
-	// 	return users.create(userDetails);
-	// });
   	res.render('index', { msg: '' });
 });
 
