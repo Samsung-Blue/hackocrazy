@@ -24,7 +24,7 @@ router.get('/',function(req, res) {
 	res.render('adminlogin',{msg: ""});
 });
 
-router.post('/login',function(req,res){
+router.post('/login',function(req,res) {
 	Admins.findOne({where : {name : req.body.user} }).then(function(admin){
 		if(bcrypt.compareSync(req.body.password,admin.password))
 		{
@@ -44,5 +44,29 @@ router.post('/login',function(req,res){
 		res.render('adminlogin',{msg: "Some error has occurred"});
 	});
 });
+router.post('/sendKeyOne',function(req,res) {
+	users.findAll().then(function(rows){
+		rows.forEach(function(item) {
+			var message = {
+			text : item.aadhaarid,
+			from : yourEmail,
+			to : item.email,
+			subject : "Key1",
+			attachment:
+			[
+				
+			]
+		};
+		server.send(message,function(err,message){
+			console.log(err||message);
+			if(!err)
+			{
+				res.render('admin');
+			}
+		});
 
+		});
+		
+	});
+});
 module.exports = router;

@@ -1,0 +1,41 @@
+body{
+  padding: 50px;
+  background-color: #24DA50;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a{
+  color: #00B7FF;
+}
+h1{
+	color: white;
+	text-align: center;
+}
+#loginform{
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+	width: 370px;
+	height: 270px; 
+}
+#submit{
+	width: 200px;
+	height: 40px;
+	background-color: #06A50B;
+}
+input{
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+	height:40px;
+	margin-top: 20px;
+	display: block;
+}
+#regmsg{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+#msg{
+	text-align: center;
+}
