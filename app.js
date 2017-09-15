@@ -65,7 +65,7 @@ app.use(passwordless.acceptToken({ successRedirect: '/storeOrCheckDetails' }));
 
 app.use('/', index);
 app.use('/', verify);
-app.use('/admin',admin);
+app.use('/admin', admin);
 
 
 // catch 404 and forward to error handler

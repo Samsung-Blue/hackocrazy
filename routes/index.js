@@ -38,6 +38,19 @@ router.get('/', function(req, res, next) {
 	
 	router.host = req.protocol+'://'+req.get('host');
 	console.log(router.host);
+	// var userDetails = {
+ //  		aadhaarid: 222,
+ //  		name: "",
+ //  		dob: "",
+ //  		address: "",
+ //  		email: "",
+ //  		fppath: "",
+ //  		allowvote: "n",
+ //  		voted: "n"
+	// };
+	// users.sync({force: true}).then(function(){
+	// 	return users.create(userDetails);
+	// });
   	res.render('index', { msg: '' });
 });
 
@@ -73,7 +86,7 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 
 router.post('/login',passwordless.requestToken(
 	function(user, delivery, callback) {
-		users.findOne ({where : {email : user}})
+		users.findOne ({where: {email : user}})
 		.then(function(voter) {
 			if ( !voter ) {
 				callback(null,null);
@@ -101,4 +114,3 @@ router.get('/register', function(req,res,next) {
 });
 
 module.exports = router;
- 

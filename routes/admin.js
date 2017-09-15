@@ -19,9 +19,11 @@ var crypto = require('crypto');
 
 router.use(session({secret: 'ssshhhhh'}));
 router.use(bodyParser.urlencoded({ extended: false }));
-router.get('/',function() {
+
+router.get('/',function(req, res) {
 	res.render('adminlogin',{msg: ""});
 });
+
 router.post('/login',function(req,res){
 	Admins.findOne({where : {name : req.body.user} }).then(function(admin){
 		if(bcrypt.compareSync(req.body.password,admin.password))
@@ -42,3 +44,5 @@ router.post('/login',function(req,res){
 		res.render('adminlogin',{msg: "Some error has occurred"});
 	});
 });
+
+module.exports = router;
