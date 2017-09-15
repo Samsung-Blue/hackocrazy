@@ -31,28 +31,25 @@ var upload = multer({ storage: storage });
 
 /* GET home page. */
 router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
-	var formdata = {
-		aadhaar_id: req.body.aadhaarid, 
-		dob: req.body.dob,
-  		image: fs.createReadStream(req.file.path),
-	}
-	console.log(formdata.dob);
 	request.post({
-		headers: {'Content-Type' : 'application/json'}, 
-		url: 'http://5cbc595a.ngrok.io/mock-api/user/auth',
-		// url: 'http://localhost:8000/apikey',
-		body: JSON.stringify(formdata) 
-		}, function optionalCallback(err, httpResponse, body) {
-
-		  	if (err) {
-		    	return console.error('upload failed:', err);
-		  	}
-		  	console.log('Upload successful!  Server responded with:', body);
-		  	if(body.auth_status==true)
-		  	{
-		  		next();
-		  	}
-		});
+        url: 'http://919b2e95.ngrok.io/mock-api/user/auth',
+        formData: {
+            aadhaar_id: req.body.aadhaarid,
+            dob: req.body.dob,
+            image: fs.createReadStream(__dirname+'/../'+req.file.path),
+        }}, function(err, response, body) {
+        	console.log(body);
+            if(err) {
+                console.log(err);
+                res.render(error);
+            }
+            else if(body["data"]["auth_status"] == true) {
+            	next();
+            }
+            else {
+            	res.render(register, {message: "Check aadhaarid / dob / fingerprint"})
+            }
+        });
 	},  passwordless.requestToken(
 		// Simply accept every user
 		function(user, delivery, callback) {
@@ -62,7 +59,6 @@ router.post('/uploaddetails', upload.single('picture'), function(req,res,next) {
 				console.log(err);
 			});
 			client.set(req.body.user, req.body.name + ',' + req.body.aadhaarid + ',' + req.body.age + ',' + req.body.address + ',' + req.file.path);
-
 	  		res.render('sent');
 	});
 module.exports = router;

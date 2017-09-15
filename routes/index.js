@@ -92,7 +92,7 @@ router.post('/login',passwordless.requestToken(
 
 
 router.get('/register', function(req,res,next) {
-	res.render('register');
+	res.render('register', {message: ""});
 });
 
 module.exports = router;
