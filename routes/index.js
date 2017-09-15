@@ -21,19 +21,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.get('/', function(req, res, next) {
 	router.host = req.protocol+'://'+req.get('host');
 	console.log(router.host);
-	// var userDetails = {
- //  		aadhaarid : 222,
- //  		name : "",
- //  		age : 0,
- //  		address : "",
- //  		email : "",
- //  		fppath : "",
- //  		allowvote : "n",
- //  		voted : "n"
-	// };
-	// users.sync({force:false}).then(function(){
-	// 	return users.create(userDetails);
-	// });
   	res.render('index', { msg: '' });
 });
 
@@ -46,16 +33,16 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 				console.log(details);
 		  		result = details.split(',');
 		  		var userDetails = {
-			  		aadhaarid : result[1],
-			  		name : result[0],
-			  		age : result[2],
-			  		address : result[3],
-			  		email : req.user,
-			  		fppath : result[4],
-			  		allowvote : "n",
-			  		voted : "n"
+			  		aadhaarid: result[1],
+			  		name: result[0],
+			  		dob: result[2],
+			  		address: result[3],
+			  		email: req.user,
+			  		fppath: result[4],
+			  		allowvote: "n",
+			  		voted: "n"
 	  			};
-	  			users.sync({force: true}).then(function(){
+	  			users.sync({force: false}).then(function(){
 	  				return users.create(userDetails);
   				});
   				res.render('instructions');
@@ -92,6 +79,7 @@ router.post('/login',passwordless.requestToken(
 
 
 router.get('/register', function(req,res,next) {
+	router.host = req.protocol+'://'+req.get('host');
 	res.render('register', {message: ""});
 });
 
