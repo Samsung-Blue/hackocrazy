@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin</title>
+        <link rel='stylesheet' href='/stylesheets/login.css' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <script type="text/javascript" src="/javascripts/validation.js"></script> -->
+        <script type="text/javascript" src="/javascripts/jquery.js"></script>
+    </head>
+    <body>
+    	<button type="submit" id="phase-one" class="submit">Send Key 1</button>
+    	<button type="submit" id="phase-two" class="submit">Send Key 2</button>
+    	<script type="text/javascript">
+    		$(document).ready(function (){
+    			$("#phase-one").click(function () {
+    				$.ajax({
+						type: "POST",
+						url: "/admin/sendKeyOne",
+						data: "Send Key Two",
+						// success: function(message) {
+						// 	console.log(message)
+						// },
+					});
+    			});
+    			$("#phase-two").click(function () {
+    				$.ajax({
+						type: "POST",
+						url: "/admin/sendKeyTwo",
+						data: "Send Key Two",
+						// success: function(message) {
+						// 	console.log(message)
+						// },
+					});
+    			});
+    		});
+    	</script>
+    </body>
+</html>

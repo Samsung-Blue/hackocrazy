@@ -33,7 +33,7 @@ router.post('/login',function(req,res){
 			// }).catch(function(err){
 			// 	console.log(err);
 			// });
-			res.send("admin login successful");
+			res.render('adminop');
 		}
 		else
 		{
