@@ -9,6 +9,19 @@ var Admins = models.Admins;
 var users = models.users;
 var vote = models.vote;
 
+var email   = require("emailjs");
+var emailDetails = require('../env.js');
+var yourEmail = emailDetails.email;
+var yourPwd = emailDetails.pwd;
+var yourSmtp = emailDetails.smtp;
+var server  = email.server.connect({
+   user:    yourEmail, 
+   password: yourPwd, 
+   host:    yourSmtp, 
+   ssl:     true
+});
+
+
 var images= models.images;
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
