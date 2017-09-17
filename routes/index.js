@@ -46,7 +46,8 @@ router.get('/', function(req, res, next) {
  //  		email: "",
  //  		fppath: "",
  //  		allowvote: "n",
- //  		voted: "n"
+ //  		voted: "n",
+ //  		key: ""
 	// };
 	// users.sync({force: true}).then(function(){
 	// 	return users.create(userDetails);
@@ -61,7 +62,11 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 		{	
 			client.get(req.user,function(err,details){
 				console.log(details);
+				
 		  		result = details.split(',');
+		  		var salt=bcrypt.genSaltSync(1);
+  				var hash=bcrypt.hashSync(result[1],salt);
+				var key = hash;
 		  		var userDetails = {
 			  		aadhaarid: result[1],
 			  		name: result[0],
@@ -70,16 +75,19 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
 			  		email: req.user,
 			  		fppath: result[4],
 			  		allowvote: "n",
-			  		voted: "n"
+			  		voted: "n",
+			  		key: key
 	  			};
 	  			users.sync({force: false}).then(function(){
 	  				return users.create(userDetails);
   				});
+  				req.session.user = req.user;
   				res.render('instructions');
 			});
 		}
 		else {
-			res.send("You have been logged in");
+			req.session.user = req.user;
+			res.render('vote');
 		}
 	});
 });

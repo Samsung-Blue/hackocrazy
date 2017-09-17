@@ -37,6 +37,10 @@ module.exports=function(sequelize,DataTypes){
 			type: DataTypes.STRING,
 			allowNull: false,
 			default: "n"
+		},
+		key: {
+			type: DataTypes.STRING,
+			allowNull: false
 		}
 	},{
     freezeTableName: true

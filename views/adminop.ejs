@@ -10,13 +10,18 @@
     <body>
     	<button type="submit" id="phase-one" class="submit">Send Key 1</button>
     	<button type="submit" id="phase-two" class="submit">Send Key 2</button>
+        <button type="submit" id="phase-three" class="submit">Send Key 3</button>
     	<script type="text/javascript">
     		$(document).ready(function (){
     			$("#phase-one").click(function () {
     				$.ajax({
 						type: "POST",
-						url: "/admin/sendKeyOne",
-						data: "Send Key Two",
+						url: "/admin/sendKey",
+						data: JSON.stringify({
+                            msg: "keyOne"
+                        }),
+                        contentType: "application/json",
+                        dataType: "json",
 						// success: function(message) {
 						// 	console.log(message)
 						// },
@@ -25,13 +30,31 @@
     			$("#phase-two").click(function () {
     				$.ajax({
 						type: "POST",
-						url: "/admin/sendKeyTwo",
-						data: "Send Key Two",
+						url: "/admin/sendKey",
+						data: JSON.stringify({
+                            msg: "keyTwo"
+                        }),
+                        contentType: "application/json",
+                        dataType: "json",
 						// success: function(message) {
 						// 	console.log(message)
 						// },
 					});
     			});
+                $("#phase-three").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/sendKey",
+                        data: JSON.stringify({
+                            msg: "keyThree"
+                        }),
+                        contentType: "application/json",
+                        dataType: "json",
+                        // success: function(message) {
+                        //  console.log(message)
+                        // },
+                    });
+                });
     		});
     	</script>
     </body>

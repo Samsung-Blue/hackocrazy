@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin</title>
+        <link rel='stylesheet' href='/stylesheets/register.css' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <script type="text/javascript" src="/javascripts/validation.js"></script> -->
+        <script type="text/javascript" src="/javascripts/jquery.js"></script>
+    </head>
+    <body>
+    	<form method="post" action="/uploadToVote" enctype="multipart/form-data">
+            <br>
+            <div class="reginput"><p>Key One : </p></div><input type="text" name="keyone" id="keyone" placeholder="KeyOne" autocomplete="off" required="true" />
+            <br><br>
+            <div class="reginput"><p>Key Two : </p></div><input type="text" name="keytwo" id="keytwo" placeholder="KeyTwo" autocomplete="off" required="true">
+            <br><br>
+            <div class="reginput"><p>Key Three : </p></div><input type="text" name="dob" id="dob" placeholder="DOB" autocomplete="off" required="true" />
+            <br><br>
+            <input type="file" id="picture" onchange="previewPic()" name="picture" required placeholder="Upload Finger Print" autocomplete="off">
+            <br><br>
+            <select name="party" id="party">
+                <option value="Party1">Party1</option>
+                <option value="Party2">Party2</option>
+                <option value="Party3">Party3</option>
+            </select>
+            <br>
+            <br>
+            <img src="" id="fingerprint" height="200" alt="FingerPrint here" style="color:white;">
+            <br>
+            <br>
+            <button class="submit" type="submit" onclick="return validate()" autocomplete="off" >Vote</button>
+            <br><br>
+        </form>
+        
+        <script type="text/javascript">
+          function previewPic()
+          {
+            var preview = document.getElementById("fingerprint");
+            var file = document.querySelector("input[type=file]").files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load",function(){
+                preview.src=reader.result;
+            },false);
+
+            if(file)
+              reader.readAsDataURL(file);
+
+          }
+        </script>
+    </body>
+ </html>

@@ -59,6 +59,7 @@ router.post('/login',function(req,res) {
 			// }).catch(function(err){
 			// 	console.log(err);
 			// });
+			req.session.user = "admin";
 			res.render('adminop');
 		}
 		else
@@ -70,14 +71,25 @@ router.post('/login',function(req,res) {
 		res.render('adminlogin',{msg: "Some error has occurred"});
 	});
 });
-router.post('/sendKeyOne',function(req,res) {
+router.post('/sendKey',function(req,res) {
 	users.findAll().then(function(rows){
 		rows.forEach(function(item) {
+			var keyPart;
+			console.log(req.body.msg);
+
+			if(req.body.msg == "keyOne")
+				keyPart = item.key.substring(0,4);
+			else if(req.body.msg == "keyTwo")
+				keyPart = item.key.substring(4,8);
+			else if(req.body.msg == "keyThree")
+				keyPart = item.key.substring(8,12);
+			console.log(keyPart);
+
 			var message = {
-			text : item.aadhaarid,
+			text : keyPart,
 			from : yourEmail,
 			to : item.email,
-			subject : "Key1",
+			subject : "Key for voting",
 			attachment:
 			[
 				
@@ -87,7 +99,7 @@ router.post('/sendKeyOne',function(req,res) {
 			console.log(err||message);
 			if(!err)
 			{
-				res.render('admin');
+				res.render('adminop');
 			}
 		});
 
