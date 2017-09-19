@@ -121,4 +121,9 @@ router.get('/register', function(req,res,next) {
 	res.render('register', {message: ""});
 });
 
+router.post('/logout', function(req,res,next) {
+	req.session.user = null;
+	res.render('index',{msg: ""});
+});
+
 module.exports = router;

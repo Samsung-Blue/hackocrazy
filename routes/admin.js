@@ -107,4 +107,9 @@ router.post('/sendKey',function(req,res) {
 		
 	});
 });
+
+router.post('/logout',function(req,res,next) {
+	req.session.user=null;
+	res.render('adminlogin',{msg: ""});
+});
 module.exports = router;
