@@ -2,7 +2,7 @@
 module.exports=function(sequelize,DataTypes){
 	var users = sequelize.define("users",{
 		aadhaarid: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			unique: true,
 			allowNull: false,
 			primaryKey: true
@@ -27,11 +27,6 @@ module.exports=function(sequelize,DataTypes){
 			type: DataTypes.STRING,
 			unique: true,
 			allowNull: false
-		},
-		allowvote: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			default: "n"
 		},
 		voted: {
 			type: DataTypes.STRING,
