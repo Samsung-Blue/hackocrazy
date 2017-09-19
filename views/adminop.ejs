@@ -9,12 +9,15 @@
     </head>
     <body>
         <form method="post" action="/admin/logout">
-            <button type="submit" value="Logout">Logout</button>
+            <button type="submit" class="submit" value="Logout">Logout</button>
         </form>
-        <button type="logout" id="logoutBtn" class="submit">Logout</button>
+        <br><br>
     	<button type="submit" id="phase-one" class="submit">Send Key 1</button>
     	<button type="submit" id="phase-two" class="submit">Send Key 2</button>
         <button type="submit" id="phase-three" class="submit">Send Key 3</button>
+        <button type="submit" id="count-votes" class="submit">Count</button>
+        <%= msg %>
+
     	<script type="text/javascript">
     		$(document).ready(function (){
     			$("#phase-one").click(function () {
@@ -59,7 +62,21 @@
                         // },
                     });
                 });
+                $("#count-votes").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/countVotes",
+                        data: JSON.stringify({
+                            msg: "countvotes"
+                        }),
+                        contentType: "application/json",
+                        dataType: "json"
+                    });
+
+                })
+
     		});
+
     	</script>
     </body>
 </html>

@@ -8,26 +8,23 @@
         <script type="text/javascript" src="/javascripts/jquery.js"></script>
     </head>
     <body>
-        <form method="post" action="/logout">
-            <button type="submit" value="submit">Logout</button>
-        </form>
+        <a href="/" style="color: darkblue;">Back to home page</a>
     	<form method="post" action="/uploadToVote" enctype="multipart/form-data">
             <br>
             <div class="reginput"><p>Key One : </p></div><input type="text" name="keyone" id="keyone" placeholder="KeyOne" autocomplete="off" required="true" />
             <br><br>
             <div class="reginput"><p>Key Two : </p></div><input type="text" name="keytwo" id="keytwo" placeholder="KeyTwo" autocomplete="off" required="true">
             <br><br>
-            <div class="reginput"><p>Key Three : </p></div><input type="text" name="dob" id="dob" placeholder="DOB" autocomplete="off" required="true" />
-            <br><br>
-            <input type="file" id="picture" onchange="previewPic()" name="picture" required placeholder="Upload Finger Print" autocomplete="off">
+            <div class="reginput"><p>Key Three : </p></div><input type="text" name="keythree" id="keythree" placeholder="KeyThree" autocomplete="off" required="true" />
             <br><br>
             <select name="party" id="party">
                 <option value="Party1">Party1</option>
                 <option value="Party2">Party2</option>
                 <option value="Party3">Party3</option>
             </select>
-            <br>
-            <br>
+            <br><br>
+            <input type="file" id="picture" onchange="previewPic()" name="picture" required placeholder="Upload Finger Print" autocomplete="off">
+            <br><br>
             <img src="" id="fingerprint" height="200" alt="FingerPrint here" style="color:white;">
             <br>
             <br>

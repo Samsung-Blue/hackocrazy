@@ -6,7 +6,7 @@ var redis = require("redis");
 var client = redis.createClient();
 var session=require('express-session');
 var bodyParser = require('body-parser');
-var bcrypt=require('bcryptjs');
+var bcrypt = require('bcryptjs');
 
 
 var passwordless = require('passwordless');
@@ -21,7 +21,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 	var adminName = "admin";
 	var adminPwd = "helloadmin";
 	var salt=bcrypt.genSaltSync(1);
@@ -36,36 +36,23 @@ router.get('/', function(req, res, next) {
 		return Admins.create(adminDetails);
   	});
 	
-	router.host = req.protocol+'://'+req.get('host');
+	router.host = req.protocol + '://' + req.get('host');
 	console.log(router.host);
-	// var userDetails = {
- //  		aadhaarid: 222,
- //  		name: "",
- //  		dob: "",
- //  		address: "",
- //  		email: "",
- //  		fppath: "",
- //  		allowvote: "n",
- //  		voted: "n",
- //  		key: ""
-	// };
-	// users.sync({force: true}).then(function(){
-	// 	return users.create(userDetails);
-	// });
   	res.render('index', { msg: '' });
 });
 
 
-router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'}),function(req,res){
-	users.findOne({where : {email : req.user}}).then(function(voter){
-		if(!voter)
-		{	
-			client.get(req.user,function(err,details){
+router.get('/storeOrCheckDetails', 
+	passwordless.restricted( { failureRedirect: '/' } ), 
+	function (req, res) {
+	users.findOne({ where: { email: req.user }}).then(function (voter) {
+		if (!voter) {	
+			client.get(req.user, function (err, details) {
 				console.log(details);
 				
 		  		result = details.split(',');
-		  		var salt=bcrypt.genSaltSync(1);
-  				var hash=bcrypt.hashSync(result[1],salt);
+		  		var salt = bcrypt.genSaltSync(1);
+  				var hash = bcrypt.hashSync(result[1], salt);
 				var key = hash;
 		  		var userDetails = {
 			  		aadhaarid: result[1],
@@ -84,22 +71,25 @@ router.get('/storeOrCheckDetails',passwordless.restricted({failureRedirect : '/'
   				req.session.user = req.user;
   				res.render('instructions');
 			});
-		}
-		else {
+		} else {
 			req.session.user = req.user;
-			res.render('vote');
+			if (voter.voted == 'n') {
+				res.render('vote');
+			} else {
+				res.render('voted');
+			}
 		}
 	});
 });
 
-router.post('/login',passwordless.requestToken(
+router.post('/login', passwordless.requestToken(
 	function(user, delivery, callback) {
-		users.findOne ({where: {email : user}})
-		.then(function(voter) {
+		users.findOne ({ where: { email : user }})
+		.then(function (voter) {
 			if ( !voter ) {
-				callback(null,null);
+				callback(null, null);
 			} else
-				callback(null,user);
+				callback(null, user);
 		});
 	}),
 	function(req, res) {
@@ -116,14 +106,10 @@ router.post('/login',passwordless.requestToken(
 	});
 
 
-router.get('/register', function(req,res,next) {
-	router.host = req.protocol+'://'+req.get('host');
-	res.render('register', {message: ""});
+router.get('/register', function(req, res, next) {
+	router.host = req.protocol + '://' + req.get('host');
+	res.render('register', { message: '' });
 });
 
-router.post('/logout', function(req,res,next) {
-	req.session.user = null;
-	res.render('index',{msg: ""});
-});
 
 module.exports = router;
