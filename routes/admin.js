@@ -10,6 +10,7 @@ var bcrypt=require('bcryptjs');
 var models  = require(path.join(__dirname, '/../' ,'models'));
 var Admins = models.Admins;
 var users = models.users;
+var votes = models.votes;
 
 var email   = require("emailjs");
 var emailDetails = require('../env.js');
@@ -23,13 +24,27 @@ var server  = email.server.connect({
    ssl:     true
 });
 
+var images= models.images;
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var mime = require('mime');
+
+var crypto = require('crypto'),
+    algorithm = 'aes-256-ctr',
+    password = 'd6F3Efeq';
+
+
 // Enable sessions
 router.use(session({secret: 'ssshhhhh'}));
 router.use(bodyParser.urlencoded({ extended: false }));
 
 // Get admin login page
 router.get('/', function (req, res) {
-	res.render('adminlogin', { msg: '' });
+	if(req.session.user == 'admin') {
+		res.render('adminop', { msg: '' });
+	} else { 
+		res.render('adminlogin', { msg: '' });
+	}
 });
 
 // Login for admins
@@ -58,8 +73,6 @@ router.post('/sendKey', function (req, res) {
 		rows.forEach(function (item) {
 			var keyPart;
 
-			console.log(key);
-
 			// Three different keys
 			if(req.body.msg == 'keyOne') {
 				keyPart = item.key.substring(0, item.key.length / 3);
@@ -84,11 +97,58 @@ router.post('/sendKey', function (req, res) {
 			server.send(message, function (err, message) {
 				console.log(err||message);
 				if (!err) {
-					res.render('adminop', { msg: req.body.msg + ' Sent' });
+					res.render('adminop',{ msg: 'Key sent successfully' });
 				}
 			});
 		});	
 	});
+});
+
+function encrypt (text) {
+    var cipher = crypto.createCipher(algorithm,password)
+    var crypted = cipher.update(text, 'utf8', 'hex')
+    crypted += cipher.final('hex');
+    return crypted;
+}
+ 
+function decrypt (text) {
+    var decipher = crypto.createDecipher(algorithm,password)
+    var dec = decipher.update(text, 'hex', 'utf8')
+    dec += decipher.final('utf8');
+    return dec;
+}
+router.post('/countVotes', function(req,res,next) {
+
+	var partyOneCount = 0;
+	var partyTwoCount = 0;
+	var partyThreeCount = 0;
+
+	votes.findAll().then(function (partyNames) {
+		partyNames.forEach(function (item) {
+			var party = decrypt(item.party);
+			console.log(party);
+			if(party == 'Party1') {
+				partyOneCount++;
+			} else if( party == 'Party2') {
+				partyTwoCount++;
+			} else if( party == 'Party3') {
+				partyThreeCount++;
+			}
+
+		});
+		console.log('Party One : ' + partyOneCount 
+		+ ' Party Two : ' + partyTwoCount 
+		+ ' Party Three : ' + partyThreeCount);
+
+		res.render('adminop', { msg: 'Party One : ' + partyOneCount 
+			+ ' Party Two : ' + partyTwoCount 
+			+ ' Party Three : ' + partyThreeCount});
+	});
+});
+
+router.post('/logout', function (req, res, next) {
+	req.session.user = null;
+	res.render('adminlogin', { msg: '' });
 });
 
 module.exports = router;

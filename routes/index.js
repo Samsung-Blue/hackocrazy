@@ -123,4 +123,5 @@ router.get('/register', function(req, res, next) {
 	res.render('register', { message: '' });
 });
 
+
 module.exports = router;

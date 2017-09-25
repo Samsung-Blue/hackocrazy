@@ -8,9 +8,16 @@
         <script type="text/javascript" src="/javascripts/jquery.js"></script>
     </head>
     <body>
+        <form method="post" action="/admin/logout">
+            <button type="submit" class="submit" value="Logout">Logout</button>
+        </form>
+        <br><br>
     	<button type="submit" id="phase-one" class="submit">Send Key 1</button>
     	<button type="submit" id="phase-two" class="submit">Send Key 2</button>
         <button type="submit" id="phase-three" class="submit">Send Key 3</button>
+        <button type="submit" id="count-votes" class="submit">Count</button>
+        <%= msg %>
+
     	<script type="text/javascript">
     		$(document).ready(function (){
     			$("#phase-one").click(function () {
@@ -22,9 +29,9 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-						// success: function(message) {
-						// 	console.log(message)
-						// },
+						success: function(message) {
+							alert(message);
+						}
 					});
     			});
     			$("#phase-two").click(function () {
@@ -36,9 +43,9 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-						// success: function(message) {
-						// 	console.log(message)
-						// },
+						success: function(message) {
+							alert(message);
+						}
 					});
     			});
                 $("#phase-three").click(function () {
@@ -50,12 +57,30 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-                        // success: function(message) {
-                        //  console.log(message)
-                        // },
+                        success: function(message) {
+                            alert(message);
+                        }
                     });
                 });
+                $("#count-votes").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/countVotes",
+                        data: JSON.stringify({
+                            msg: "countvotes"
+                        }),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (message) {
+                            // alert(message);
+                            console.log(message);
+                        }
+                    });
+
+                })
+
     		});
+
     	</script>
     </body>
 </html>
