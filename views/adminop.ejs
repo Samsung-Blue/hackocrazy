@@ -16,7 +16,9 @@
     	<button type="submit" id="phase-two" class="submit">Send Key 2</button>
         <button type="submit" id="phase-three" class="submit">Send Key 3</button>
         <button type="submit" id="count-votes" class="submit">Count</button>
-        <%= msg %>
+        <br><br>
+        <div id="message"><%= message %></div>
+
 
     	<script type="text/javascript">
     		$(document).ready(function (){
@@ -29,8 +31,10 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-						success: function(message) {
-							alert(message);
+						success: function(data) {
+							// alert(data.msg);
+                            $("#message").html(data.msg);
+
 						}
 					});
     			});
@@ -43,8 +47,11 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-						success: function(message) {
-							alert(message);
+						success: function(data) {
+							// alert(message);
+                            // alert(data.msg);
+                            $("#message").html(data.msg);
+
 						}
 					});
     			});
@@ -57,8 +64,8 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-                        success: function(message) {
-                            alert(message);
+                        success: function(data) {
+                            $("#message").html(data.msg);
                         }
                     });
                 });
@@ -71,9 +78,9 @@
                         }),
                         contentType: "application/json",
                         dataType: "json",
-                        success: function (message) {
+                        success: function (data) {
                             // alert(message);
-                            console.log(message);
+                            $("#message").html(data.msg);
                         }
                     });
 

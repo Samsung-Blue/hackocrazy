@@ -41,7 +41,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // Get admin login page
 router.get('/', function (req, res) {
 	if(req.session.user == 'admin') {
-		res.render('adminop', { msg: '' });
+		res.render('adminop', { message: '' });
 	} else { 
 		res.render('adminlogin', { msg: '' });
 	}
@@ -55,7 +55,7 @@ router.post('/login', function (req, res) {
 		if (bcrypt.compareSync(req.body.password, admin.password)) {
 			req.session.user = 'admin';
 			// Render admin operations page
-			res.render('adminop', {msg: ''});
+			res.render('adminop', { message: ''});
 		} else {
 			// Render login page 
 			res.render('adminlogin', { msg: 'Wrong Username or Password' });
@@ -68,7 +68,10 @@ router.post('/login', function (req, res) {
 
 // To send key via email
 router.post('/sendKey', function (req, res) {
+
 	// Send key to all users
+
+	var flag = 0;
 	users.findAll().then(function (rows) {
 		rows.forEach(function (item) {
 			var keyPart;
@@ -94,14 +97,24 @@ router.post('/sendKey', function (req, res) {
 					]
 			};
 
+
 			server.send(message, function (err, message) {
-				console.log(err||message);
-				if (!err) {
-					res.render('adminop',{ msg: 'Key sent successfully' });
+				console.log(err);
+				if (err!=null) {
+					// res.render('adminop',{ message: 'Key sent successfully' });
+					flag = 1;
 				}
+
 			});
+
 		});	
 	});
+	console.log("hello");
+	if( flag == 0 ) {
+		res.send(JSON.stringify({msg:'key sent successfully to all voters'}));
+	}
+	else res.send(JSON.stringify({msg: 'all keys were not sent.Send again :('}));
+	// res.render('adminop', { message: 'hi admin'});
 });
 
 function encrypt (text) {
@@ -140,9 +153,9 @@ router.post('/countVotes', function(req,res,next) {
 		+ ' Party Two : ' + partyTwoCount 
 		+ ' Party Three : ' + partyThreeCount);
 
-		res.render('adminop', { msg: 'Party One : ' + partyOneCount 
+		res.send(JSON.stringify({ msg: 'Party One : ' + partyOneCount 
 			+ ' Party Two : ' + partyTwoCount 
-			+ ' Party Three : ' + partyThreeCount});
+			+ ' Party Three : ' + partyThreeCount}));
 	});
 });
 
