@@ -50,12 +50,13 @@ var upload = multer({ storage: storage });
 router.post('/uploaddetails', upload.single('picture'), 
     function(req, res, next) {
     // Send Post request to aadhaar api
+    var imagePath = path.join(__dirname, '..', req.file.path); 
 	request.post({
         url: 'http://139.59.86.176:8000/mock-api/user/auth',
         formData: {
             aadhaar_id: req.body.aadhaarid,
             dob: req.body.dob,
-            image: fs.createReadStream(__dirname + '/../' + req.file.path),
+            image: fs.createReadStream(imagePath),
         }}, function(err, response, body) {
         	console.log(body);
             var message = JSON.parse(body);
