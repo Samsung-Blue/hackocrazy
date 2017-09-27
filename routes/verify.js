@@ -122,13 +122,14 @@ router.post('/uploadToVote', upload.single('picture'),
                 image: fs.createReadStream(imagePath),
             }}, function(err, response, body) {
                 // console.log(body);
-                // var message = JSON.parse(body);
+                var message = JSON.parse(body);
                 // console.log(message.data);
                 if(err) {
                     console.log(err);
-                    res.render('error');
+                    res.render('error', {message: err});
                 }
-                else if(body === 'yes' && bcrypt.compareSync(aadhaarid, uploadedKey)) {
+                else if(message.data.auth_status == true 
+                    && bcrypt.compareSync(aadhaarid, uploadedKey)) {
                     // If fingerprint is verified and uploaded key is checked with aadhaar id
                     res.send('Thanks for voting');
 
