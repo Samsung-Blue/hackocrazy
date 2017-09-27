@@ -112,14 +112,14 @@ router.post('/uploadToVote', upload.single('picture'),
         aadhaarid = voter.aadhaarid;
         dob = voter.dob;
         origKey = voter.key;
-
+        var imagePath = path.join(__dirname, '..', req.file.path); 
         // Check the fingerprint uploaded again
         request.post({
-            url: 'http://localhost:8000/apikey',
+            url: 'http://139.59.86.176:8000/mock-api/user/auth',
             formData: {
                 aadhaar_id: aadhaarid,
                 dob: dob,
-                image: fs.createReadStream(__dirname+'/../'+req.file.path),
+                image: fs.createReadStream(imagePath),
             }}, function(err, response, body) {
                 // console.log(body);
                 // var message = JSON.parse(body);
