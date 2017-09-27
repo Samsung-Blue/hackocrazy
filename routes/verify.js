@@ -50,24 +50,20 @@ var upload = multer({ storage: storage });
 router.post('/uploaddetails', upload.single('picture'), 
     function(req, res, next) {
     // Send Post request to aadhaar api
+    var imagePath = path.join(__dirname, '..', req.file.path); 
 	request.post({
-        // url: 'http://c55e251e.ngrok.io/mock-api/user/auth',
-        url : 'http://localhost:8000/apikey',
+        url: 'http://139.59.86.176:8000/mock-api/user/auth',
         formData: {
             aadhaar_id: req.body.aadhaarid,
             dob: req.body.dob,
-            image: fs.createReadStream(__dirname + '/../' + req.file.path),
+            image: fs.createReadStream(imagePath),
         }}, function(err, response, body) {
         	console.log(body);
-            // var message = JSON.parse(body);
-            // console.log(message.data);
-            // else if(message.data.auth_status == true) {
-            //  next();
-            // }
+            var message = JSON.parse(body);
             if (err) {
                 console.log(err);
                 res.render('error',{message: err});
-            } else if(body === 'yes') {
+            } else if(message.data.auth_status == true) {
                 // Only if aadhaar id, age and fingerprint is verified , proceed
                 next();
             } else {
