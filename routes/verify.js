@@ -35,7 +35,8 @@ var votes = models.votes;
 
 var storage = multer.diskStorage({
   	destination: function (req, file, cb) {
-    cb(null, './uploads/')
+        var imagePath = path.join(__dirname, '/../', 'uploads');
+        cb(null, imagePath)
   },
   filename: function (req, file, cb) {
     	crypto.pseudoRandomBytes(16, function (err, raw) {
@@ -60,7 +61,6 @@ router.post('/uploaddetails', upload.single('picture'),
         }}, function(err, response, body) {
         	if (body)
                 var message = JSON.parse(body);
-            var message = JSON.parse(body);
             if (err) {
                 console.log(err);
                 res.render('error',{message: err});
@@ -122,9 +122,8 @@ router.post('/uploadToVote', upload.single('picture'),
                 dob: dob,
                 image: fs.createReadStream(imagePath),
             }}, function(err, response, body) {
-                // console.log(body);
-                var message = JSON.parse(body);
-                // console.log(message.data);
+                if (body)
+                    var message = JSON.parse(body);
                 if(err) {
                     console.log(err);
                     res.render('error', {message: err});
