@@ -58,7 +58,8 @@ router.post('/uploaddetails', upload.single('picture'),
             dob: req.body.dob,
             image: fs.createReadStream(imagePath),
         }}, function(err, response, body) {
-        	console.log(response);
+        	if (body)
+                var message = JSON.parse(body);
             var message = JSON.parse(body);
             if (err) {
                 console.log(err);
