@@ -32,12 +32,18 @@ This project is an attempt to develop a working model for a secure online voting
     * In config.json fill in your db credentials like dbname,username and password and save it ofcourse.
 * Configure the email sending setup 
 	* Copy the contents of the env.example.js file to a file named env.js and fill the email credentials needed for smtp connection 
-* Now as the final step to run the server write on your terminal the following command :
+* Go to the folder where you installed redis and run the command ./src/redis-server to keep the redis server running.
+* Now as the final step to run the node server write on your terminal the following command :
     ```
     $ npm start
     ```
 * If you have followed the steps correctly this will get your node server running
 on localhost : 3000. To view it go to your browser and type in http://localhost :3000. Also if you face any issues so far, google and stackoverflow will come to rescue :P
+
+
+## Features and the workflow of the application
+* After your details have been recorded in aadhar database with our other application visit the online voting system site.
+![Alt text](./screenshots/h2.jpg?raw=true "Optional Title")
 
 ## Built With
 * Html
