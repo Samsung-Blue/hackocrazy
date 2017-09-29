@@ -42,8 +42,43 @@ on localhost : 3000. To view it go to your browser and type in http://localhost 
 
 
 ## Features and the workflow of the application
+
+### User side
+
 * After your details have been recorded in aadhar database with our other application visit the online voting system site.
-![Alt text](./screenshots/h2.png?raw=true "Optional Title")
+![Home page](./screenshots/h1.png?raw=true "Optional Title")
+
+* Register as a voter by clicking on register link and then filling in necessary details along with fingerprint.
+![Registration](./screenshots/h2.png?raw=true "Optional Title")
+
+* On submitting registration details it is verified with the aadhar api.If the details are correct then you get a page showing that a one time link has been sent to your mail.
+![One time link](./screenshots/h3.png?raw=true "Optional Title")
+
+* On going to your mail and clicking on the one time link you are led to an instructions page.
+![One time link in mail](./screenshots/h4.png?raw=true "Optional Title")
+![Instructions](./screenshots/h5.png?raw=true "Optional Title")
+
+* After registration and until day of voting you will receive three keys in your mail inbox.
+![Keys](./screenshots/h8.png?raw=true "Optional Title")
+
+* On the day of voting finally you will have to login via the one time link sent to your email as soon as you try to login using your email id and then upload all the 3 keys received along with your finger print and the party you are voting for.
+![Vote](./screenshots/h14.png?raw=true "Optional Title")
+
+* If all the keys are correct along with the finger print which is again verified with aadhar api, then your vote is taken into account or discarded .
+![thanks for voting](./screenshots/h15.png?raw=true "Optional Title") 
+
+
+### Admin side
+
+* Login as admin after visiting site url/admin
+![Admin login](./screenshots/h6.png?raw=true "Optional Title")
+
+* Send keys to the mail ids of all the registered voters at random times until the voting day.Send the third key only on the voting day so that no one can vote before the voting day.
+![Send keys](./screenshots/h7.png?raw=true "Optional Title")
+
+* After voting is over click on the count button to get a count of votes each party has received in their favour.
+![Results](./screenshots/h11.png?raw=true "Optional Title")
+
 
 ## Built With
 * Html
