@@ -43,7 +43,7 @@ on localhost : 3000. To view it go to your browser and type in http://localhost 
 
 ## Features and the workflow of the application
 * After your details have been recorded in aadhar database with our other application visit the online voting system site.
-![Alt text](./screenshots/h2.jpg?raw=true "Optional Title")
+![Alt text](./screenshots/h2.png?raw=true "Optional Title")
 
 ## Built With
 * Html
