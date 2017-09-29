@@ -6,7 +6,7 @@ This project is an attempt to develop a working model for a secure online voting
 ## Getting Started
   First get this project cloned to your local system using the following command on your terminal .
   ```
-  $ git clone https://github.com/Samsung-Blue/Voting-System.git
+  $ git clone https://github.com/Samsung-Blue/hackocrazy.git
   ```
   To get this project running on your system follow the following step by step guide .
   
@@ -32,13 +32,14 @@ This project is an attempt to develop a working model for a secure online voting
     * In config.json fill in your db credentials like dbname,username and password and save it ofcourse.
 * Configure the email sending setup 
 	* Copy the contents of the env.example.js file to a file named env.js and fill the email credentials needed for smtp connection 
+* Go to routes folder and to the file verify.js.There at lines 58 and 123 change the mock aadhar api url to localhost:8000 where you run the mock aadhaar api application after cloning the other repo corresponding to that.
 * Go to the folder where you installed redis and run the command ./src/redis-server to keep the redis server running.
 * Now as the final step to run the node server write on your terminal the following command :
     ```
     $ npm start
     ```
 * If you have followed the steps correctly this will get your node server running
-on localhost : 3000. To view it go to your browser and type in http://localhost :3000. Also if you face any issues so far, google and stackoverflow will come to rescue :P
+on localhost : 3000. To view it go to your browser and type in http://localhost :3000. 
 
 
 ## Features and the workflow of the application

@@ -53,6 +53,8 @@ router.post('/uploaddetails', upload.single('picture'),
     // Send Post request to aadhaar api
     // var imagePath = path.join(__dirname, '..', req.file.path); 
 	request.post({
+        /*Change the url to localhost:port number where the mock aadhar api 
+        application is running*/
         url: 'http://139.59.86.176:8000/mock-api/user/auth',
         formData: {
             aadhaar_id: req.body.aadhaarid,
@@ -116,6 +118,8 @@ router.post('/uploadToVote', upload.single('picture'),
         // var imagePath = path.join(__dirname, '..', req.file.path); 
         // Check the fingerprint uploaded again
         request.post({
+            /*Change the url to localhost:port number where the mock aadhar api 
+            application is running*/
             url: 'http://139.59.86.176:8000/mock-api/user/auth',
             formData: {
                 aadhaar_id: aadhaarid,
